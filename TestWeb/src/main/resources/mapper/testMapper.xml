@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--  sql문을 만들어서 설정해줌 -->
+<mapper namespace="com.eugeneprogram.testweb.dao.TestMapper">
+    <select id="getList" resultType="java.util.Map">
+        SELECT * FROM writing;
+    </select>
+    <select id="searchList" resultType="java.util.Map">
+       SELECT * FROM writing
+       WHERE 
+           (writing_name LIKE CONCAT('%', #{searchKeyword}, '%') OR #{searchKeyword} IS NULL OR #{searchKeyword} = '')
+           AND (#{searchKeyword} IS NULL OR #{searchKeyword} != 'writing_name');
+    </select> 
+    <!-- 게시글에서 글의 제목과 내용을 넘기는 쿼리 -->
+    <insert id="insertWrite" parameterType="java.util.Map">
+        INSERT INTO writing (writing_name, writing_content) VALUES (#{name}, #{content});
+        <selectKey resultType="int" keyProperty="writeId" order="AFTER">
+        	SELECT LAST_INSERT_ID();
+        </selectKey>
+    </insert>
+    <!-- 첨부 파일 정보 입력 -->
+    <insert id="insertFile" parameterType="java.util.Map">
+    	INSERT INTO file (writing_id, file_originalname, file_path, file_size) 
+    	VALUES (#{writingId}, #{fileOriginalname}, #{filePath}, #{fileSize})
+    </insert>
+    
+    <select id="readWrite" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT * FROM writing 
+        WHERE
+            writing_id =#{writing_id}
+    </select>
+    
+    <select id="readFile" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT * FROM file 
+        WHERE
+            writing_id =#{writing_id}
+    </select>
+    <select id="readFileinformation" parameterType="java.lang.Integer" resultType="java.util.Map">
+    	SELECT * FROM file
+    	WHERE
+    		file_id =#{file_id}
+    </select>
+</mapper>
