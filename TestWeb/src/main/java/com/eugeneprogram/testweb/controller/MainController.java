@@ -227,28 +227,31 @@ public class MainController {
 
 	        return mv;
 	    }
-	
+	 
+	   //파일을 눌렀을 때 처리하는 부분(/filedownload에서 처리)
 	   @RequestMapping(value = "/filedownload")
+	   //파일을 다운로드하는 것이므로 반환형이 없는 void를 이용(file_id에 맞는 파일을 검색하기 위해 file_id를 받아오고 
+	   //request객체를 생성하여 정보를 저장, response객체를 생성하여 응답을 보냄
 	   public void downloadFile(@RequestParam("file_id") int file_id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		   System.out.println("file_id : " + file_id);
-		   Map<String, Object> file = testService.readFileinformation(file_id);
+		   Map<String, Object> file = testService.readFileinformation(file_id); //file_id에 맞는 파일 정보들을 map을 이용해 file에 저장
 		   
-		   String saveFileName = (String)file.get("file_path");
-		   String originalFileName = (String)file.get("file_originalname");
+		   String saveFileName = (String)file.get("file_path"); //파일의 절대 경로를 저장
+		   String originalFileName = (String)file.get("file_originalname"); //파일의 상대경로를 저장
 		   
-		   File downloadFile = new File(saveFileName);
+		   File downloadFile = new File(saveFileName); //절대 경로를 담은 객체를 생성
 		   
-		   byte[] fileByte = Files.readAllBytes(downloadFile.toPath());
+		   byte[] fileByte = Files.readAllBytes(downloadFile.toPath()); //byte형식으로 파일들의 절대 경로의 객체를 모두 변환시켜줌, 파일의 경로를 가져와 파일에서 읽은 바이트를 포함하는 바이트 어레이를 반환함
 		   
-		   response.setContentType("application/octet-stream");
-		   response.setContentLength(fileByte.length);
+		   response.setContentType("application/octet-stream"); //응답한 정보에 내용 타입을 8비트 바이너리 배열로 다운로드 하도록 처리
+		   response.setContentLength(fileByte.length); //응답한 정보에 내용의 길이를 지정
 		   
-		   response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName, "UTF-8") +"\";");
-		   response.setHeader("Content-Transfer-Encoding", "binary");
+		   response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(originalFileName, "UTF-8") +"\";"); //다운로드 시 파일이름을 지정해줌
+		   response.setHeader("Content-Transfer-Encoding", "binary"); //바이너리데이터이므로 바이너리로 인코딩함
 		   
-		   response.getOutputStream().write(fileByte);
-		   response.getOutputStream().flush();
-		   response.getOutputStream().close();
+		   response.getOutputStream().write(fileByte); //버퍼에 파일을 담아 스트림으로 출력
+		   response.getOutputStream().flush(); //버퍼에 저장된 내용을 클라이언트로 전송하고 버퍼를 비움
+		   response.getOutputStream().close(); //출력스트림을 종료
 	   }
 		 
 	 @RequestMapping(value = "/login")

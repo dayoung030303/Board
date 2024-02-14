@@ -42,8 +42,10 @@
 		<tr>
 			<th>첨부파일</th>
 			<td>
+			<!-- jstl c:forEach의 속성 var ="for문에서 사용할 변수" items="${리스트가 받아올 배열이름}" varStatus="상태용 변수" -->
 			<c:forEach var="file" items="${writing_file}" varStatus="status">
 			    <div class="file-info">
+			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
 					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
 					<a href='<c:url value="/filedownload?file_id=${file.file_id }"/>'>${file.file_originalname }</a>
 				</div>
