@@ -13,5 +13,8 @@ public interface TestMapper {
 	public void insertFile(Map<String, Object> fileInfo) throws Exception;
 	public List<Map<String, Object>> readFile(int writing_id) throws Exception;
 	public Map<String, Object> readFileinformation(int file_id) throws Exception;
+	public void deleteWrite(int writing_id) throws Exception;
+	public void deleteSelect(String writing_id) throws Exception;
+	
 
 }

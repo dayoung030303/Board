@@ -42,7 +42,7 @@
 		<tr>
 			<th>첨부파일</th>
 			<td>
-			<!-- jstl c:forEach의 속성 var ="for문에서 사용할 변수" items="${리스트가 받아올 배열이름}" varStatus="상태용 변수" -->
+			<!-- jstl c:forEach의 속성 var =for문에서 사용할 변수 items={리스트가 받아올 배열이름} varStatus=상태용 변수 -->
 			<c:forEach var="file" items="${writing_file}" varStatus="status">
 			    <div class="file-info">
 			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
@@ -58,7 +58,24 @@
 </div>
 <div style="margin-left:1px;">
  <span><input type="button" value="목록" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
-           
+ <span><input type="button" value="글 삭제" onClick="delCheck('${writing_id}')" style="font-size:10px; padding : 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;   
+ <span><input type="button" value="글 수정" onClick="reWrite('${writing_id}')" style="font-size:10px; padding : 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;   
+ 
+ <script>
+ 	function delCheck(writing_id) {
+ 		var chk = confirm("정말 삭제하시겠습니까?");
+ 		if (chk) {
+ 			location.href="/delete?writing_id=" + writing_id;
+ 		}
+ 	}
+ 	
+ </script>  
+ <script>
+ 	function reWrite(writing_id) {
+ 			location.href="/rewrite?writing_id=" + writing_id;
+ 	}
+ 	
+ </script>  
 </div>
 </div>
 </div>

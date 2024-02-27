@@ -45,4 +45,17 @@ public class TestService {
 		return testMapper.readFileinformation(file_id);
 	}
 
+	public void deleteWrite(int writing_id) throws Exception{
+		// TODO Auto-generated method stub
+		testMapper.deleteWrite(writing_id);
+	}
+
+	public void deleteSelect(String writing_id) throws Exception{
+		// TODO Auto-generated method stub
+		testMapper.deleteSelect(writing_id);
+	}
+	
+	
+
+	
 }

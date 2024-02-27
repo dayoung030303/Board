@@ -64,25 +64,45 @@
         </colgroup>
         <thead>
             <tr>
-                <th>번호</th>
+                <td>
+                
+                	<input type="checkbox" id="all" name="all" class="btn-outlin-info" onclick="selectAll()"/>
+                
+                <th>번호</th></td>
                 <th>제목</th>
             </tr>
         </thead>
         <tbody>
         
+        <form action = "selectDelete">
             <c:forEach var="item" items="${list}">
                 <tr>
+                   
                     <td>${item.writing_id}</td>
+                    <c:if test="${item.writing_delete == 'N'}">
                     <td>
+                    <input type="checkbox" name="checked" class="btn-outlin-info" value="${item.writing_id}"/>
+                
                     <a href="listread?writing_id=${item.writing_id}">
                     ${item.writing_name}
                     </a>
+                    </c:if>
                     </td>
+                    <td>
+                    <c:if test="${item.writing_delete == 'Y'}">
+                    삭제된 글입니다.
+                    </a>
+                    </c:if>
+                    </td>
+                   
+                    
                 </tr>
             </c:forEach>
+           
         </tbody>
     </table>
-
+	
+	
     <%-- 페이징 처리 부분 --%>
     <c:if test="${totalPages > 1}">
         <div>
@@ -96,10 +116,26 @@
 </html>
             
             <span><input type="button" value="글 작성" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+            <span><input type="submit" id="checkBoxBth" value="선택 삭제" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+            
             </table>
     
     
     </div>
-   
+   </form>
 </body>
+
+<script>
+	function selectAll() {
+		if(document.getElementById("all").checked==true){
+			for(var i=0;i<100;i++)
+				document.getElementsByName("checked")[i].checked=true;
+		}
+		if(document.getElementById("all").checked==false){
+			for(var i=0;i<100;i++)
+				document.getElementsByName("checked")[i].checked=false;
+		}
+	
+	};
+</script>
 </html>

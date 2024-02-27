@@ -33,6 +33,7 @@ public class MainController {
 	@Autowired
 	TestService testService;
 	
+	
 	@RequestMapping(value = "/main") //주소록 매핑을 해주므로써 보안성을 강화해줌
 	public String goMain() {
 		return "main"; //jsp파일의 이름이 됨 jsp파일이 root가 됨
@@ -136,6 +137,27 @@ public class MainController {
 	    public String write()	{
 	    	return "write";
 	    }
+	 //글수정 화면
+	 @RequestMapping(value = "/rewrite")
+	    public ModelAndView rewrite(@RequestParam("writing_id") int writing_id) throws Exception {
+	        // TestService를 통해 writingId에 해당하는 글의 세부 내용을 가져옵니다.
+		 	ModelAndView mv = new ModelAndView();
+		 	mv.setViewName("rewrite");
+		 	
+	        Map<String, Object> writingDetails = testService.readWrite(writing_id);
+	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	        list = testService.readFile(writing_id);
+	        System.out.println(list.size()); //파일의 사이즈를 찍어서 파일의 개수를 확인함
+	        
+	        // 가져온 세부 내용을 모델에 추가합니다.
+	        mv.addObject("writing_id", writingDetails.get("writing_id"));
+	        mv.addObject("writing_name", writingDetails.get("writing_name"));
+	        mv.addObject("writing_content", writingDetails.get("writing_content"));
+	        mv.addObject("writing_file", list);
+
+	        return mv;
+	    }
+	 
 	 //내용부분의 이미지 파일 업로드
 	 @PostMapping(value = "/write/upload")
 		public ModelAndView image(MultipartHttpServletRequest request) throws Exception {
@@ -218,15 +240,37 @@ public class MainController {
 	        Map<String, Object> writingDetails = testService.readWrite(writing_id);
 	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 	        list = testService.readFile(writing_id);
-	        System.out.println(list.get(0));
+	        System.out.println(list.size()); //파일의 사이즈를 찍어서 파일의 개수를 확인함
 	        
 	        // 가져온 세부 내용을 모델에 추가합니다.
+	        mv.addObject("writing_id", writingDetails.get("writing_id"));
 	        mv.addObject("writing_name", writingDetails.get("writing_name"));
 	        mv.addObject("writing_content", writingDetails.get("writing_content"));
 	        mv.addObject("writing_file", list);
 
 	        return mv;
 	    }
+	 
+	 @RequestMapping(value = "/selectDelete")
+		public String goSelectDelete(HttpServletRequest request) throws Exception {
+		 
+		 	String[] selectId = request.getParameterValues("checked");
+		 	
+		 	for(int i = 0; i<selectId.length; i++) {
+		 		testService.deleteSelect(selectId[i]);
+		 	}
+		 	
+			return "selectDelete";
+		}
+	 
+	 @RequestMapping(value = "/delete")
+	  public String delete(@RequestParam("writing_id") int writing_id) throws Exception {
+		 //System.out.println(writing_id + 10000);
+		 testService.deleteWrite(writing_id);
+		 
+		 return "redirect:java";
+
+	  }
 	 
 	   //파일을 눌렀을 때 처리하는 부분(/filedownload에서 처리)
 	   @RequestMapping(value = "/filedownload")
@@ -253,6 +297,7 @@ public class MainController {
 		   response.getOutputStream().flush(); //버퍼에 저장된 내용을 클라이언트로 전송하고 버퍼를 비움
 		   response.getOutputStream().close(); //출력스트림을 종료
 	   }
+	   
 		 
 	 @RequestMapping(value = "/login")
 	    public String login()	{

@@ -41,4 +41,16 @@
     	WHERE
     		file_id =#{file_id}
     </select>
+    <update id="deleteWrite" parameterType="java.lang.Integer">
+    	UPDATE writing SET writing_delete = 'y' 
+    	WHERE 
+    		 writing_id =#{writing_id}
+    </update>
+    
+     <update id="deleteSelect" parameterType="java.lang.String">
+    	UPDATE writing SET writing_delete = 'y' 
+    	WHERE 
+    		 writing_id =#{writing_id}
+    </update>
+   
 </mapper>
