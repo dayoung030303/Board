@@ -54,6 +54,16 @@ public class TestService {
 		// TODO Auto-generated method stub
 		testMapper.deleteSelect(writing_id);
 	}
+
+	public void reInsertWrite(Map<String, Object> rewrite) throws Exception{
+		// TODO Auto-generated method stub
+		testMapper.reInsertWrite(rewrite);
+	}
+
+	public void reInsertFile(Map<String, Object> fileInfo) throws Exception {
+		// TODO Auto-generated method stub
+		testMapper.reInsertFile(fileInfo);
+	}
 	
 	
 

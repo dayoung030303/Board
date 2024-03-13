@@ -158,6 +158,57 @@ public class MainController {
 	        return mv;
 	    }
 	 
+	 @RequestMapping(value = "/rewritesave", method = RequestMethod.POST)
+		public String uploadFileAndRewrite(@RequestParam("writing_id") int writing_id, @RequestParam String name, @RequestParam Object content, @RequestParam("file") MultipartFile[] files, Model model) throws Exception {
+		    String filePath = "C:\\Users\\user\\Documents\\workspace-spring-tool-suite-4-4.19.0.RELEASE\\TestWeb\\src\\main\\webapp\\file";
+		    File directory = new File(filePath);
+		    //System.out.println(writing_id);
+		    // 해당 디렉토리가 없으면 생성함
+		    if (!directory.exists()) {
+		        directory.mkdirs();
+		    }
+
+		    // 글 작성 부분
+		    System.out.println("name: " + name);
+		    System.out.println("content: " + new String(((String) content).getBytes("euc-kr"), "UTF-8"));
+		    Map<String, Object> rewrite = new HashMap<>();
+
+		    rewrite.put("writing_id", writing_id);
+		    rewrite.put("writingName", name);
+		    rewrite.put("writingContent", content);
+		    testService.reInsertWrite(rewrite); // 게시글 정보를 데이터베이스에 저장하고 ID를 가져옴
+		    //System.out.println("write : " + rewrite.get("writeId"));
+		    //writing_id = (Integer) rewrite.get("writing_id");
+		    List<Map<String, Object>> fileList = new ArrayList<>();
+
+		    for (MultipartFile file : files) {
+		        //파일의 원래 이름을 가져옴
+		        String originalFileName = file.getOriginalFilename();
+		        File dest = new File(directory, originalFileName);
+
+		        try {
+		            //해당 경로에 파일을 저장함
+		            file.transferTo(dest);
+		            
+		            Map<String, Object> fileInfo = new HashMap<>();
+		            System.out.println("originalFileName : " + originalFileName);
+		            fileInfo.put("fileOriginalname", originalFileName);
+		            fileInfo.put("filePath", filePath + "/" + originalFileName);
+		            fileInfo.put("fileSize", file.getSize());
+		           // fileInfo.put("writingId", writing_id);
+
+		            fileList.add(fileInfo); // 파일 정보를 리스트에 추가함
+		            testService.reInsertFile(fileInfo); // 파일 정보를 데이터베이스에 저장함
+		        } catch (IllegalStateException | IOException e) {
+		            e.printStackTrace();
+		        }
+		    }
+
+		    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
+		    return "redirect:java";
+		}
+		
+	 
 	 //내용부분의 이미지 파일 업로드
 	 @PostMapping(value = "/write/upload")
 		public ModelAndView image(MultipartHttpServletRequest request) throws Exception {
@@ -250,6 +301,7 @@ public class MainController {
 
 	        return mv;
 	    }
+	 
 	 
 	 @RequestMapping(value = "/selectDelete")
 		public String goSelectDelete(HttpServletRequest request) throws Exception {
