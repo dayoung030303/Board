@@ -21,7 +21,7 @@
 	</style>
 </head>
 <body>
-
+<h1>${writing_file.get(0).file_id }</h1>
 <div class="panel-heading">게시글 수정하기</div>
 	<div class="panel-body">
 		<form method="post" action="/rewritesave" enctype="multipart/form-data">
@@ -32,9 +32,20 @@
                 <input type="text" value="${writing_name}" class="form-control" name="name"><br>
                
                 <label>첨부파일</label>
-                <input type="file" value="${writing_file}" name="file" multiple>
+                <input type="file" value="${writing_file}" name="file" multiple="multiple">
+                
 			</div>
+			<td>
+			<!-- jstl c:forEach의 속성 var =for문에서 사용할 변수 items={리스트가 받아올 배열이름} varStatus=상태용 변수 -->
+			<c:forEach var="file" items="${writing_file.get(0)}" varStatus="status">
+			    <div class="file-info">
+			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
+					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+					<a href='<c:url value="/filedownload?file_id=${file.file_id }"/>'>${file.file_originalname }</a>
+				</div>
 			
+			</c:forEach>
+			</td>
 			<div class="input-group">
 				<label>내용</label>
 				

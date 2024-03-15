@@ -147,7 +147,7 @@ public class MainController {
 	        Map<String, Object> writingDetails = testService.readWrite(writing_id);
 	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 	        list = testService.readFile(writing_id);
-	        System.out.println(list.size()); //파일의 사이즈를 찍어서 파일의 개수를 확인함
+	        System.out.println(list.size() + " " + list.get(0)); //파일의 사이즈를 찍어서 파일의 개수를 확인함
 	        
 	        // 가져온 세부 내용을 모델에 추가합니다.
 	        mv.addObject("writing_id", writingDetails.get("writing_id"));
@@ -176,7 +176,7 @@ public class MainController {
 		    rewrite.put("writing_id", writing_id);
 		    rewrite.put("writingName", name);
 		    rewrite.put("writingContent", content);
-		    testService.reInsertWrite(rewrite); // 게시글 정보를 데이터베이스에 저장하고 ID를 가져옴
+		    testService.reInsertWrite(rewrite); // 게시글 정보를 데이터베이스에 수정하고 ID를 가져옴
 		    //System.out.println("write : " + rewrite.get("writeId"));
 		    //writing_id = (Integer) rewrite.get("writing_id");
 		    List<Map<String, Object>> fileList = new ArrayList<>();
@@ -205,7 +205,7 @@ public class MainController {
 		    }
 
 		    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
-		    return "redirect:java";
+		    return "redirect:java"; //rewrite 뒤로가기 부분 참고하면서 수정완료 부분 상세페이지로 가게 처리하기 금요일날
 		}
 		
 	 
