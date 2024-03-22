@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,10 +21,10 @@
 	</style>
 </head>
 <body>
-<h1>${writing_file.get(0).file_id }</h1>
+
 <div class="panel-heading">게시글 수정하기</div>
 	<div class="panel-body">
-		<form method="post" action="/rewritesave" enctype="multipart/form-data">
+		<form method="post" action="/writesave" enctype="multipart/form-data">
 		<input type="hidden" name="writing_id" value="${writing_id}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		
 			<div class="form-group">
@@ -32,12 +32,13 @@
                 <input type="text" value="${writing_name}" class="form-control" name="name"><br>
                
                 <label>첨부파일</label>
-                <input type="file" value="${writing_file}" name="file" multiple="multiple">
+                <input type="file" name="file" multiple="multiple">
                 
 			</div>
+			<th>첨부파일</th>
 			<td>
 			<!-- jstl c:forEach의 속성 var =for문에서 사용할 변수 items={리스트가 받아올 배열이름} varStatus=상태용 변수 -->
-			<c:forEach var="file" items="${writing_file.get(0)}" varStatus="status">
+			<c:forEach var="file" items="${writing_file}" varStatus="status">
 			    <div class="file-info">
 			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
 					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
