@@ -97,9 +97,8 @@ public class MainController {
 	    // 글 작성 부분
 	    System.out.println("name: " + name);
 	    System.out.println("content: " + new String(((String) content).getBytes("euc-kr"), "UTF-8"));
+	    //System.out.println("writing_id: " + writing_id);
 	    
-		if(writing_id == 0)
-		{
 		
 	    Map<String, Object> write = new HashMap<>();
 
@@ -134,9 +133,9 @@ public class MainController {
 	    }
 
 	    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
-		}
 		
-		else
+		
+		if(writing_id > 0)
 		{
 		    Map<String, Object> rewrite = new HashMap<>();
 
@@ -146,7 +145,7 @@ public class MainController {
 		    testService.reInsertWrite(rewrite); // 게시글 정보를 데이터베이스에 수정하고 ID를 가져옴
 		    //System.out.println("write : " + rewrite.get("writeId"));
 		    //writing_id = (Integer) rewrite.get("writing_id");
-		    List<Map<String, Object>> fileList = new ArrayList<>();
+		    List<Map<String, Object>> fileList1 = new ArrayList<>();
 
 		    for (MultipartFile file : files) {
 		        //파일의 원래 이름을 가져옴
@@ -164,14 +163,14 @@ public class MainController {
 		            fileInfo.put("fileSize", file.getSize());
 		           // fileInfo.put("writingId", writing_id);
 
-		            fileList.add(fileInfo); // 파일 정보를 리스트에 추가함
+		            fileList1.add(fileInfo); // 파일 정보를 리스트에 추가함
 		            testService.reInsertFile(fileInfo); // 파일 정보를 데이터베이스에 저장함
 		        } catch (IllegalStateException | IOException e) {
 		            e.printStackTrace();
 		        }
 		    }
 
-		    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
+		    model.addAttribute("files", fileList1); // 파일 정보 리스트를 모델에 추가함
 		}
 	    return "redirect:java";
 	}

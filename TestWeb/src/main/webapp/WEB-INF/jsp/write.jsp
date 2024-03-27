@@ -25,6 +25,7 @@
 <div class="panel-heading">게시글 작성하기</div>
 	<div class="panel-body">
 		<form method="post" action="/writesave" enctype="multipart/form-data">
+		<input type="hidden" name="writing_id" value=0>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />		
 			<div class="form-group">
 				<label>제목</label> 
