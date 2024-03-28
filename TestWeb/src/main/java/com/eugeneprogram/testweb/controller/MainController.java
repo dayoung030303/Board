@@ -86,20 +86,15 @@ public class MainController {
 	@RequestMapping(value = "/writesave", method = RequestMethod.POST)
 	public String uploadFileAndWrite(@RequestParam("writing_id") int writing_id, @RequestParam String name, @RequestParam Object content, @RequestParam("file") MultipartFile[] files, Model model) throws Exception {
 	    
-		String filePath = "C:\\Users\\user\\Documents\\workspace-spring-tool-suite-4-4.19.0.RELEASE\\TestWeb\\src\\main\\webapp\\file";
-	    File directory = new File(filePath);
-
-	    // 해당 디렉토리가 없으면 생성함
-	    if (!directory.exists()) {
-	        directory.mkdirs();
-	    }
-
+		
 	    // 글 작성 부분
 	    System.out.println("name: " + name);
 	    System.out.println("content: " + new String(((String) content).getBytes("euc-kr"), "UTF-8"));
-	    //System.out.println("writing_id: " + writing_id);
+	    System.out.println("writing_id: " + writing_id);
+	    System.out.println("files: " + files.length + " " + files[0].toString());
 	    
-		
+		if(writing_id == 0)
+		{
 	    Map<String, Object> write = new HashMap<>();
 
 	    write.put("name", name);
@@ -107,7 +102,19 @@ public class MainController {
 	    int writingId = testService.insertWrite(write); // 게시글 정보를 데이터베이스에 저장하고 ID를 가져옴
 	    System.out.println("write : " + write.get("writeId"));
 	    writingId = (Integer) write.get("writeId");
-	    List<Map<String, Object>> fileList = new ArrayList<>();
+	    
+        if(files.length > 0)
+        {
+        	System.out.println("!!!!!");
+        	String filePath = "C:\\Users\\user\\Documents\\workspace-spring-tool-suite-4-4.19.0.RELEASE\\TestWeb\\src\\main\\webapp\\file";
+    	    File directory = new File(filePath);
+
+    	    // 해당 디렉토리가 없으면 생성함
+    	    if (!directory.exists()) {
+    	        directory.mkdirs();
+    	    }
+    	    
+    	    List<Map<String, Object>> fileList = new ArrayList<>();
 
 	    for (MultipartFile file : files) {
 	        //파일의 원래 이름을 가져옴
@@ -133,10 +140,22 @@ public class MainController {
 	    }
 
 	    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
-		
+        }
+		}
 		
 		if(writing_id > 0)
 		{
+			System.out.println("#####");
+			String filePath = "C:\\Users\\user\\Documents\\workspace-spring-tool-suite-4-4.19.0.RELEASE\\TestWeb\\src\\main\\webapp\\file";
+    	    File directory = new File(filePath);
+
+    	    // 해당 디렉토리가 없으면 생성함
+    	    if (!directory.exists()) {
+    	        directory.mkdirs();
+    	    }
+    	    
+    	    List<Map<String, Object>> fileList = new ArrayList<>();
+
 		    Map<String, Object> rewrite = new HashMap<>();
 
 		    rewrite.put("writing_id", writing_id);
@@ -158,13 +177,22 @@ public class MainController {
 		            
 		            Map<String, Object> fileInfo = new HashMap<>();
 		            System.out.println("originalFileName : " + originalFileName);
+		            fileInfo.put("writing_id", writing_id);
 		            fileInfo.put("fileOriginalname", originalFileName);
 		            fileInfo.put("filePath", filePath + "/" + originalFileName);
 		            fileInfo.put("fileSize", file.getSize());
 		           // fileInfo.put("writingId", writing_id);
 
 		            fileList1.add(fileInfo); // 파일 정보를 리스트에 추가함
+		            List<Map<String, Object>> fileInfo2 = new ArrayList<>();
+		            fileInfo2 = testService.readFile(writing_id);
+		            if(fileInfo2.size() == 0) {
+		            	fileInfo.put("writingId", writing_id);
+		            	testService.insertFile(fileInfo);
+		            }
+		            else {
 		            testService.reInsertFile(fileInfo); // 파일 정보를 데이터베이스에 저장함
+		            }
 		        } catch (IllegalStateException | IOException e) {
 		            e.printStackTrace();
 		        }

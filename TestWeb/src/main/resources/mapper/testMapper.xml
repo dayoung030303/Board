@@ -58,7 +58,7 @@
     	WHERE 
     		 writing_id =#{writing_id}
     </update>
-    <update id="reInsertFile" parameterType="java.lang.Integer">
+    <update id="reInsertFile" parameterType="java.util.Map">
     	UPDATE file SET file_originalname =#{fileOriginalname}, file_path =#{filePath}, file_size =#{fileSize}
     	WHERE
     		 writing_id =#{writing_id}
