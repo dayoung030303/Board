@@ -86,14 +86,18 @@ public class MainController {
 	@RequestMapping(value = "/writesave", method = RequestMethod.POST)
 	public String uploadFileAndWrite(@RequestParam("writing_id") int writing_id, @RequestParam String name, @RequestParam Object content, @RequestParam("file") MultipartFile[] files, Model model) throws Exception {
 	    
+		String page = "";
 	    // 글 작성 부분
 	    System.out.println("name: " + name);
 	    System.out.println("content: " + new String(((String) content).getBytes("euc-kr"), "UTF-8"));
 	    System.out.println("writing_id: " + writing_id);
 	    System.out.println("files: " + files.length + " " + files[0].toString());
 	    
+	    
 		if(writing_id == 0)
 		{
+			page = "redirect:java";
+			
 		    Map<String, Object> write = new HashMap<>();
 	
 		    write.put("name", name);
@@ -142,11 +146,15 @@ public class MainController {
 	
 			    model.addAttribute("files", fileList); // 파일 정보 리스트를 모델에 추가함
 	            }
+			    
 		    }
+	        
 		}
 		
 		if(writing_id > 0)
 		{
+			page = "redirect:listread?writing_id="+writing_id;
+			
 			Map<String, Object> rewrite = new HashMap<>();
 	
 			rewrite.put("writing_id", writing_id);
@@ -203,7 +211,7 @@ public class MainController {
 			    model.addAttribute("files", fileList1); // 파일 정보 리스트를 모델에 추가함
 			    }
 		}
-	    return "redirect:java";
+	    return page;
 	}
 	
 	@RequestMapping(value = "/rewritesave", method = RequestMethod.POST)
@@ -397,6 +405,14 @@ public class MainController {
 		 return "redirect:java";
 
 	  }
+	 
+	 @RequestMapping(value = "/deletefile")
+	  public String deletefile(@RequestParam("file_id") int file_id, @RequestParam("writing_id") int writing_id) throws Exception {
+		 
+		 testService.delteFile(file_id);
+		 
+		 return "redirect:rewrite?writing_id="+writing_id;
+	 }
 	 
 	   //파일을 눌렀을 때 처리하는 부분(/filedownload에서 처리)
 	   @RequestMapping(value = "/filedownload")

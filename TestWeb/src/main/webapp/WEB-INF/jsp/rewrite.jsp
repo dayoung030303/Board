@@ -42,8 +42,10 @@
 			    <div class="file-info">
 			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
 					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
-					<span><input type="button" value="삭제" onClick="deletefile('${file.file_id}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+					<c:if test="${file.file_delete == 'N'}">
+					<span><input type="button" value="삭제" onClick="deletefile('${file.file_id}', '${writing_id}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
 					<a href='<c:url value="/filedownload?file_id=${file.file_id }"/>'>${file.file_originalname }</a>
+					</c:if>
 				</div>
 			
 			</c:forEach>
@@ -87,8 +89,11 @@
 		</form>
 </div>
 <script>
- 	function deletefile(file.file_id) {
- 			location.href="/delete?file.file_id=" + file.file_id;
+ 	function deletefile(file_id, writing_id) {
+ 		var chk = confirm("정말 삭제하시겠습니까?");	
+ 		if(chk){
+ 			location.href="/deletefile?file_id=" + file_id + "&&writing_id=" + writing_id;
+ 		}
  	}
  	
  </script>  

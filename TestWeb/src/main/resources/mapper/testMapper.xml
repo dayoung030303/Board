@@ -47,10 +47,22 @@
     		 writing_id =#{writing_id}
     </update>
     
+    <update id="deleteFile" parameterType="java.lang.Integer">
+    	UPDATE file SET file_delete = 'y' 
+    	WHERE 
+    		 file_id =#{file_id}
+    </update>
+    
      <update id="deleteSelect" parameterType="java.lang.String">
     	UPDATE writing SET writing_delete = 'y' 
     	WHERE 
     		 writing_id =#{writing_id}
+    </update>
+    
+    <update id="deleteFileSelect" parameterType="java.lang.String">
+    	UPDATE file SET file_delete = 'y' 
+    	WHERE 
+    		 file_id =#{file_id}
     </update>
     
     <update id="reInsertWrite" parameterType="java.util.Map">

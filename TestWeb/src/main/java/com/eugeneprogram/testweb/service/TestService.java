@@ -64,6 +64,11 @@ public class TestService {
 		// TODO Auto-generated method stub
 		testMapper.reInsertFile(fileInfo);
 	}
+
+	public void delteFile(int file_id) throws Exception {
+		// TODO Auto-generated method stub
+		testMapper.deleteFile(file_id);
+	}
 	
 	
 

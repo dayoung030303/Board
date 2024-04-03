@@ -17,6 +17,7 @@ public interface TestMapper {
 	public void deleteSelect(String writing_id) throws Exception;
 	public void reInsertWrite(Map<String, Object> rewrite) throws Exception;
 	public void reInsertFile(Map<String, Object> fileInfo) throws Exception;
+	public void deleteFile(int file_id) throws Exception;
 	
 
 }

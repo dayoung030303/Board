@@ -47,7 +47,9 @@
 			    <div class="file-info">
 			    <!-- aria-hidden="true"로 하면 하위의 정보들을 숨길 수 있음 -->
 					<span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+					<c:if test="${file.file_delete == 'N'}">
 					<a href='<c:url value="/filedownload?file_id=${file.file_id }"/>'>${file.file_originalname }</a>
+					</c:if>
 				</div>
 			
 			</c:forEach>
