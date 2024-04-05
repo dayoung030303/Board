@@ -65,40 +65,52 @@
         <thead>
             <tr>
                 <td>
-                
-                	<input type="checkbox" id="all" name="all" class="btn-outlin-info" onclick="selectAll()"/>
-                
-                <th>번호</th></td>
-                <th>제목</th>
+                <input type="checkbox" id="all" name="all" class="btn-outlin-info" onclick="selectAll()"/>
+                </td>
+                <td style="font-weight: 900;">
+                번호
+                </td>
+                <td style="font-weight: 900;">
+                제목
+                </td>
             </tr>
         </thead>
         <tbody>
         
         <form action = "selectDelete">
+       
             <c:forEach var="item" items="${list}">
                 <tr>
-                   
-                    <td>${item.writing_id}</td>
                     <c:if test="${item.writing_delete == 'N'}">
                     <td>
-                    <input type="checkbox" name="checked" class="btn-outlin-info" value="${item.writing_id}"/>
-                
+                   	<input type="checkbox" name="checked" class="btn-outlin-info" value="${item.writing_id}"/>
+                    </td>
+                    <td>
+                    ${item.writing_id}
+                    </td>
+                    <td>
                     <a href="listread?writing_id=${item.writing_id}">
                     ${item.writing_name}
                     </a>
+                    </td>
                     </c:if>
+                    
+                    
+                    <c:if test="${item.writing_delete == 'Y'}">
+                    <td>
+                    
                     </td>
                     <td>
-                    <c:if test="${item.writing_delete == 'Y'}">
-                    삭제된 글입니다.
-                    </a>
-                    </c:if>
-                    </td>
-                   
                     
+                    </td>
+                    <td> 
+                    삭제된 글입니다.
+                    </td>
+                    </c:if>
+                   
                 </tr>
             </c:forEach>
-           
+           </form>
         </tbody>
     </table>
 	

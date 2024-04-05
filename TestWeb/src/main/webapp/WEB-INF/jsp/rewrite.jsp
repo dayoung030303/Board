@@ -63,7 +63,7 @@
             .create( document.querySelector( '#content' ), {
             	
             	ckfinder: {
-            		uploadUrl : '/rewrite/upload'
+            		uploadUrl : '/write/upload'
             	}
             })
              .then(newEditor => {
