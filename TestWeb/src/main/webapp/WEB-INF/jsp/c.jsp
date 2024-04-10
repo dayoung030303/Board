@@ -31,13 +31,13 @@
     <span></span>
     </div>
     <div style="border: 1px solid blue; width:200px; heigth: 500px; text-align: center;">
-    <span><input type="button" value="C++" onClick="location.href='C++'"></span>
+    <span><input type="button" value="C++" onClick="location.href='c++'"></span>
     </div>
     <div style="border: 10px solid white; width:200px; heigth: 500px; text-align: center;">
     <span></span>
     </div>
     <div style="border: 1px solid blue; width:200px; heigth: 500px; text-align: center;">
-    <span><input type="button" value="C" onClick="location.href='C'"></span>
+    <span><input type="button" value="C" onClick="location.href='c'"></span>
     </div>
     <div style="border: 10px solid white; width:200px; heigth: 500px; text-align: center;">
     <span></span>

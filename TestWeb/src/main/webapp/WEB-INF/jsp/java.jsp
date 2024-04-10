@@ -32,13 +32,13 @@
     <span></span>
     </div>
     <div style="border: 1px solid blue; width:200px; heigth: 500px; text-align: center;">
-    <span><input type="button" value="C++" onClick="location.href='C++'"></span>
+    <span><input type="button" value="C++" onClick="location.href='c++'"></span>
     </div>
     <div style="border: 10px solid white; width:200px; heigth: 500px; text-align: center;">
     <span></span>
     </div>
     <div style="border: 1px solid blue; width:200px; heigth: 500px; text-align: center;">
-    <span><input type="button" value="C" onClick="location.href='C'"></span>
+    <span><input type="button" value="C" onClick="location.href='c'"></span>
     </div>
     <div style="border: 10px solid white; width:200px; heigth: 500px; text-align: center;">
     <span></span>
@@ -101,7 +101,7 @@
                     
                     </td>
                     <td>
-                    
+                    ${item.writing_id}
                     </td>
                     <td> 
                     삭제된 글입니다.
@@ -119,8 +119,10 @@
     <c:if test="${totalPages > 1}">
         <div>
             <span>현재 페이지: ${currentPage + 1} / 총 페이지: ${totalPages}</span>
-            <c:forEach var="i" begin="0" end="${totalPages - 1}">
+            <c:forEach var="i" begin="0" end="${totalPages-1}">
+            <%--이부분부터 다시보기 --%><c:forEach var="i" begin="0" end="9">
                 <a href="/java?page=${i}&searchKeyword=${searchKeyword}">${i + 1}</a>
+            </c:forEach>
             </c:forEach>
         </div>
     </c:if>
