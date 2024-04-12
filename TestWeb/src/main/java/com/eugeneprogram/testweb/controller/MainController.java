@@ -48,9 +48,6 @@ public class MainController {
 	    ModelAndView mv = new ModelAndView();
 	    mv.setViewName("java");
 
-	    // 한 페이지에 표시할 항목 수
-	    int pageSize = 10;
-
 	    // 검색어에 맞는 리스트의 특정 값만 가져오기
 	    List<Map<String, Object>> list;
 
@@ -60,18 +57,30 @@ public class MainController {
 	        // 검색어가 없으면 전체 리스트 가져오기
 	        list = testService.getList();
 	    }
-
 	    // 페이징 처리를 위한 부분
+	    // 한 페이지에 표시할 데이터 수
+	    int pageSize = 10;
 	    // 전체 데이터의 크기
 	    int totalItems = list.size();
-
 	    // 전체 페이지 수
 	    int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+	    //현재 시작 페이지
+	    int pageNum = 0;
+	    //페이지 단위
+	    int pageNavSize = 10;
+	    //게시물의 시작번호(거꾸로 시작)
+	    int startRowIndex;
+	    //페이지의 시작번호
+	    int firstPageNum;
+	    //페이지의 마지막번호
+	    int lastPageNum;
 
 	    // 현재 페이지에 해당하는 일부 데이터만 선택
+	    //페이지에 해당하는 첫번째 데이터 값
 	    int startIdx = page * pageSize;
+	    //페이지에 해당하는 마지막 데이터 값
 	    int endIdx = Math.min((page + 1) * pageSize, totalItems);
-
+	    //10개의 데이터를 리스트에 저장
 	    List<Map<String, Object>> paginatedData = list.subList(startIdx, endIdx);
 
 	    // 현재 페이지 정보 및 데이터 전달
