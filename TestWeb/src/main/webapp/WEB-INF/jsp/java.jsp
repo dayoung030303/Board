@@ -120,15 +120,15 @@
     
         <div>
             <span>현재 페이지: ${currentPage + 1} / 총 페이지: ${totalPages}</span>
-            <span><input type="button" value="<<" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
-            <span><input type="button" value="<" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+            <span><input type="button" value="<<" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+            <span><input type="button" value="<" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
             <!-- 버튼 눌렀을 때 페이징 처리 해주는 함수로 가도록 처리하는 부분부터 보기 -->
             <c:forEach var="i" begin="0" end="${totalPages-1}">
             
                 <a href="/java?page=${i}&searchKeyword=${searchKeyword}">${i + 1}</a>
             </c:forEach>
-           <span><input type="button" value=">>" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
-           <span><input type="button" value=">" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+           <span><input type="button" value=">" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+           <span><input type="button" value=">>" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
             
         </div>
     </c:if>

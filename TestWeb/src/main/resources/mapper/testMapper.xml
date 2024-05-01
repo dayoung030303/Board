@@ -4,14 +4,19 @@
 <!--  sql문을 만들어서 설정해줌 -->
 <mapper namespace="com.eugeneprogram.testweb.dao.TestMapper">
     <select id="getList" resultType="java.util.Map">
-        SELECT * FROM writing;
+        SELECT * FROM writing
+        ORDER BY writing_id DESC;
     </select>
     <select id="searchList" resultType="java.util.Map">
        SELECT * FROM writing
        WHERE 
            (writing_name LIKE CONCAT('%', #{searchKeyword}, '%') OR #{searchKeyword} IS NULL OR #{searchKeyword} = '')
-           AND (#{searchKeyword} IS NULL OR #{searchKeyword} != 'writing_name');
+           AND (#{searchKeyword} IS NULL OR #{searchKeyword} != 'writing_name')
+       ORDER BY writing_id DESC;
     </select> 
+    <select id="pagingList" resultType="java.util.Map">
+    	SELECT * FROM 
+    </select>
     <!-- 게시글에서 글의 제목과 내용을 넘기는 쿼리 -->
     <insert id="insertWrite" parameterType="java.util.Map">
         INSERT INTO writing (writing_name, writing_content) VALUES (#{name}, #{content});
@@ -75,5 +80,6 @@
     	WHERE
     		 writing_id =#{writing_id}
     </update>
+    
    
 </mapper>
