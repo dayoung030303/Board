@@ -42,7 +42,7 @@ public class MainController {
 	
 	@RequestMapping(value = "/java")
 	public ModelAndView java(
-	    @RequestParam(defaultValue = "0") int page,
+	    @RequestParam(defaultValue = "0") int currentPage,
 	    @RequestParam(required = false) String searchKeyword
 	) throws Exception {
 	    ModelAndView mv = new ModelAndView();
@@ -64,30 +64,35 @@ public class MainController {
 	    int totalItems = list.size();
 	    // 전체 페이지 수
 	    int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-	    //현재 시작 페이지
-	    int pageNum = 0;
-	    //페이지 단위
-	    int pageNavSize = 10;
-	    //게시물의 시작번호(거꾸로 시작)
-	    int startRowIndex;
-	    //페이지의 시작번호
-	    int firstPageNum;
-	    //페이지의 마지막번호
-	    int lastPageNum;
-
+	    //보여줄 페이지 개수
+	    int pageNum = 10;
+	    //한 화면에 보여질 페이지 그룹
+	    int pageGroup = (int)Math.ceil(currentPage / pageNum) + 1;
+	    System.out.println("temp0 : "+ pageGroup);
+	    //그룹 내 페이지의 시작번호
+	    int firstPageNum = ((pageGroup - 1) * pageNum);
+	    System.out.println("temp1 : "+ firstPageNum);
+	    //그룹 내 페이지의 마지막번호
+	    int lastPageNum = firstPageNum + 9;
+	    System.out.println("temp2 : "+ pageGroup);
+	    System.out.println("temp3 : "+ lastPageNum);
 	    // 현재 페이지에 해당하는 일부 데이터만 선택
 	    //페이지에 해당하는 첫번째 데이터 값
-	    int startIdx = page * pageSize;
+	    int startIdx = currentPage * pageSize;
 	    //페이지에 해당하는 마지막 데이터 값
-	    int endIdx = Math.min((page + 1) * pageSize, totalItems);
+	    int endIdx = Math.min((currentPage + 1) * pageSize, totalItems);
 	    //10개의 데이터를 리스트에 저장
 	    List<Map<String, Object>> paginatedData = list.subList(startIdx, endIdx);
+	    //List<String> pagenumberGroup = list.subList(firstPageNum, lastPageNum); 
 
 	    // 현재 페이지 정보 및 데이터 전달
-	    mv.addObject("currentPage", page);
+	    mv.addObject("currentPage", currentPage);
 	    mv.addObject("totalPages", totalPages);
 	    mv.addObject("list", paginatedData);
 	    mv.addObject("searchKeyword", searchKeyword);
+	    mv.addObject("pageGroup", pageGroup);
+	    mv.addObject("firstPageNum", firstPageNum);
+	    mv.addObject("lastPageNum", lastPageNum);
 
 	    return mv;
 	}

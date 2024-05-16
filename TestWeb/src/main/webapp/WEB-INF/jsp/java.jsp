@@ -115,7 +115,7 @@
     </table>
 	
 	
-    <%-- 페이징 처리 부분 --%>
+    <%-- 페이징 처리 부분  --%>
     <c:if test="${totalPages > 1}">
     
         <div>
@@ -123,15 +123,17 @@
             <span><input type="button" value="<<" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
             <span><input type="button" value="<" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
             <!-- 버튼 눌렀을 때 페이징 처리 해주는 함수로 가도록 처리하는 부분부터 보기 -->
-            <c:forEach var="i" begin="0" end="${totalPages-1}">
+            
+            <c:forEach var="i" begin="${firstPageNum}" end="${lastPageNum}">
             
                 <a href="/java?page=${i}&searchKeyword=${searchKeyword}">${i + 1}</a>
             </c:forEach>
-           <span><input type="button" value=">" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+           <span><input type="button" value=">" onClick="clickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
            <span><input type="button" value=">>" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
             
         </div>
     </c:if>
+   
 </body>
 </html>
             
@@ -144,7 +146,13 @@
     </div>
    </form>
 </body>
-
+<script>
+ 	function clickEvent(currentPage, searchKeyword) {
+ 		location.href = "/java?page=${currentPage+10}&searchKeyword=${searchKeyword}";
+ 		
+ 	}
+ 	
+ </script> 
 <script>
 	function selectAll() {
 		if(document.getElementById("all").checked==true){
