@@ -68,14 +68,15 @@ public class MainController {
 	    int pageNum = 10;
 	    //한 화면에 보여질 페이지 그룹
 	    int pageGroup = (int)Math.ceil(currentPage / pageNum) + 1;
-	    System.out.println("temp0 : "+ pageGroup);
+	    System.out.println("currentPage : "+ currentPage);
+	    System.out.println("pageGroup : "+ pageGroup);
 	    //그룹 내 페이지의 시작번호
 	    int firstPageNum = ((pageGroup - 1) * pageNum);
-	    System.out.println("temp1 : "+ firstPageNum);
+	    System.out.println("firstPageNum : "+ firstPageNum);
 	    //그룹 내 페이지의 마지막번호
 	    int lastPageNum = firstPageNum + 9;
-	    System.out.println("temp2 : "+ pageGroup);
-	    System.out.println("temp3 : "+ lastPageNum);
+	    System.out.println("pageGroup : "+ pageGroup);
+	    System.out.println("lastPageNum : "+ lastPageNum);
 	    // 현재 페이지에 해당하는 일부 데이터만 선택
 	    //페이지에 해당하는 첫번째 데이터 값
 	    int startIdx = currentPage * pageSize;
