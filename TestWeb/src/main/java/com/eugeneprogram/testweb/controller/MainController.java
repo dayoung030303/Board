@@ -68,6 +68,7 @@ public class MainController {
 	    int pageNum = 10;
 	    //한 화면에 보여질 페이지 그룹
 	    int pageGroup = (int)Math.ceil(currentPage / pageNum) + 1;
+	    int lastpageGroup = (int)Math.ceil(totalPages / pageNum) + 1;
 	    System.out.println("currentPage : "+ currentPage);
 	    System.out.println("pageGroup : "+ pageGroup);
 	    //그룹 내 페이지의 시작번호
@@ -92,6 +93,7 @@ public class MainController {
 	    mv.addObject("list", paginatedData);
 	    mv.addObject("searchKeyword", searchKeyword);
 	    mv.addObject("pageGroup", pageGroup);
+	    mv.addObject("lastpageGroup", lastpageGroup);
 	    mv.addObject("firstPageNum", firstPageNum);
 	    mv.addObject("lastPageNum", lastPageNum);
 

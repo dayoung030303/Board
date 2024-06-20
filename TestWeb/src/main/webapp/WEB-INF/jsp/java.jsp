@@ -120,8 +120,12 @@
     
         <div>
             <span>현재 페이지: ${currentPage + 1} / 총 페이지: ${totalPages}</span>
-            <span><input type="button" value="<<" onClick="subClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
-            <span><input type="button" value="<" onClick="subClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+			<span>
+			     <input type="button" value="<<" onClick="subAllClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding: 5px;" <c:if test="${pageGroup == 1}">disabled</c:if> />
+			</span>
+			<span>
+			    <input type="button" value="<" onClick="subClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding: 5px;" <c:if test="${currentPage == 0}">disabled</c:if> />
+			</span>
             <!-- 버튼 눌렀을 때 페이징 처리 해주는 함수로 가도록 처리하는 부분부터 보기 -->
             
             <c:forEach var="i" begin="${firstPageNum}" end="${lastPageNum}">
@@ -129,8 +133,10 @@
                 	<a href="/java?currentPage=${i}&searchKeyword=${searchKeyword}">${i + 1}</a>
                 </c:if>
             </c:forEach>
-           <span><input type="button" value=">" onClick="addClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
-           <span><input type="button" value=">>" onClick="location.href='java'" style="font-size:10px; padding : 5px 5px 5px 5px;"></span>
+           <span><input type="button" value=">" onClick="addClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px;"<c:if test="${currentPage == totalPages - 1}">disabled</c:if> />
+           </span>
+           <span><input type="button" value=">>" onClick="addAllClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px;"<c:if test="${pageGroup == lastpageGroup}">disabled</c:if> />
+           </span>
             
         </div>
     </c:if>
@@ -149,14 +155,28 @@
 </body>
 <script>
  	function subClickEvent(currentPage, searchKeyword) {
- 		location.href = "/java?currentPage=${currentPage-1}&searchKeyword=${searchKeyword}";
  		
+ 			location.href = "/java?currentPage=${currentPage-1}&searchKeyword=${searchKeyword}";	
+ 	}
+ 	
+ </script> 
+ <script>
+ 	function subAllClickEvent(currentPage, searchKeyword) {
+ 		
+ 			location.href = "/java?currentPage=${currentPage-10}&searchKeyword=${searchKeyword}";	
  	}
  	
  </script> 
 <script>
  	function addClickEvent(currentPage, searchKeyword) {
  		location.href = "/java?currentPage=${currentPage+1}&searchKeyword=${searchKeyword}";
+ 		
+ 	}
+ 	
+ </script> 
+ <script>
+ 	function addAllClickEvent(currentPage, searchKeyword) {
+ 		location.href = "/java?currentPage=${currentPage+10}&searchKeyword=${searchKeyword}";
  		
  	}
  	
