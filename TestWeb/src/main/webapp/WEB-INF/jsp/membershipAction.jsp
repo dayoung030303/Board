@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>membershipAction page</title>
+<title>MEMBERSHIPACTION PAGE</title>
 </head>
 <body>
 

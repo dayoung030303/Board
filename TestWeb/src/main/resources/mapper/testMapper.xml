@@ -7,6 +7,7 @@
         SELECT * FROM writing
         ORDER BY writing_id DESC;
     </select>
+    
     <select id="searchList" resultType="java.util.Map">
        SELECT * FROM writing
        WHERE 
@@ -14,9 +15,11 @@
            AND (#{searchKeyword} IS NULL OR #{searchKeyword} != 'writing_name')
        ORDER BY writing_id DESC;
     </select> 
+    
     <select id="pagingList" resultType="java.util.Map">
     	SELECT * FROM 
     </select>
+    
     <!-- 게시글에서 글의 제목과 내용을 넘기는 쿼리 -->
     <insert id="insertWrite" parameterType="java.util.Map">
         INSERT INTO writing (writing_name, writing_content) VALUES (#{name}, #{content});
@@ -24,6 +27,7 @@
         	SELECT LAST_INSERT_ID();
         </selectKey>
     </insert>
+    
     <!-- 첨부 파일 정보 입력 -->
     <insert id="insertFile" parameterType="java.util.Map">
     	INSERT INTO file (writing_id, file_originalname, file_path, file_size) 
@@ -41,11 +45,13 @@
         WHERE
             writing_id =#{writing_id}
     </select>
+    
     <select id="readFileinformation" parameterType="java.lang.Integer" resultType="java.util.Map">
     	SELECT * FROM file
     	WHERE
     		file_id =#{file_id}
     </select>
+    
     <update id="deleteWrite" parameterType="java.lang.Integer">
     	UPDATE writing SET writing_delete = 'y' 
     	WHERE 
@@ -58,7 +64,7 @@
     		 file_id =#{file_id}
     </update>
     
-     <update id="deleteSelect" parameterType="java.lang.String">
+    <update id="deleteSelect" parameterType="java.lang.String">
     	UPDATE writing SET writing_delete = 'y' 
     	WHERE 
     		 writing_id =#{writing_id}
@@ -75,6 +81,7 @@
     	WHERE 
     		 writing_id =#{writing_id}
     </update>
+    
     <update id="reInsertFile" parameterType="java.util.Map">
     	UPDATE file SET file_originalname =#{fileOriginalname}, file_path =#{filePath}, file_size =#{fileSize}
     	WHERE

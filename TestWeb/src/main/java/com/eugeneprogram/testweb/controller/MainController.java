@@ -33,12 +33,10 @@ public class MainController {
 	@Autowired
 	TestService testService;
 	
-	
 	@RequestMapping(value = "/main") //주소록 매핑을 해주므로써 보안성을 강화해줌
 	public String goMain() {
 		return "main"; //jsp파일의 이름이 됨 jsp파일이 root가 됨
 	}
-	
 	
 	@RequestMapping(value = "/java")
 	public ModelAndView java(
@@ -51,12 +49,12 @@ public class MainController {
 	    // 검색어에 맞는 리스트의 특정 값만 가져오기
 	    List<Map<String, Object>> list;
 
-	    if (searchKeyword != null && !searchKeyword.isEmpty()) {
-	        list = testService.searchList(searchKeyword);
-	    } else {
-	        // 검색어가 없으면 전체 리스트 가져오기
-	        list = testService.getList();
-	    }
+		    if (searchKeyword != null && !searchKeyword.isEmpty()) {
+		        list = testService.searchList(searchKeyword);
+		    } else {
+		        // 검색어가 없으면 전체 리스트 가져오기
+		        list = testService.getList();
+		    }
 	    // 페이징 처리를 위한 부분
 	    // 한 페이지에 표시할 데이터 수
 	    int pageSize = 10;
