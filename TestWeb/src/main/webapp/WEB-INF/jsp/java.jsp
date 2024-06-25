@@ -103,7 +103,7 @@
 			                    </c:if>
 			                </tr>
 			            </c:forEach>
-			        </form>
+			        
 			    </tbody>
 			    </table>
 			    <%-- 페이징 처리 부분  --%>
@@ -129,12 +129,14 @@
 			           </span>
 			        </div>
 			    </c:if>
-		</body>
-		</html>
+		
+		
 			            
 			            <span><input type="button" value="글 작성" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
-			            <span><input type="button" value="선택 삭제" onClick="location.href='selectDelete'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+			            <span><input type="submit" value="선택 삭제" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+			         </form>
 			</body>
+			
 			<script>
 			 	function subClickEvent(currentPage, searchKeyword) {
 			 		location.href = "/java?currentPage=${currentPage-1}&searchKeyword=${searchKeyword}";	
