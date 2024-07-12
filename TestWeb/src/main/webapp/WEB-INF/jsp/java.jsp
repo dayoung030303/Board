@@ -88,7 +88,7 @@
 			                      ${item.writing_id}
 			                     </td>
 			                     <td>
-			                      <a href="listread?writing_id=${item.writing_id}">
+			                     <a href="listread?writing_id=${item.writing_id}&currentPage=${currentPage}">
 			                       ${item.writing_name}
 			                      </a>
 			                     </td>

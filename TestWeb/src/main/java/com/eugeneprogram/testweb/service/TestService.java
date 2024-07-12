@@ -21,6 +21,14 @@ public class TestService {
 	        return testMapper.searchList(searchKeyword);
 	}
 	
+	public List<Map<String, Object>> getList2() throws Exception {
+		return testMapper.getList();
+    }
+
+	public List<Map<String, Object>> searchList2(String searchKeyword) throws Exception {
+	        return testMapper.searchList(searchKeyword);
+	}
+	
 	public int insertWrite(Map<String, Object> write) throws Exception {
 		return testMapper.insertWrite(write);
 	}

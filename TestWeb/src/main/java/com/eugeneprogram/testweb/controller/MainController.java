@@ -98,6 +98,66 @@ public class MainController {
 	    return mv;
 	}
 	
+	@RequestMapping(value = "/datastructure")
+	public ModelAndView datastructure(
+	    @RequestParam(defaultValue = "0") int currentPage,
+	    @RequestParam(required = false) String searchKeyword
+	) throws Exception {
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("datastructure");
+
+	    // 검색어에 맞는 리스트의 특정 값만 가져오기
+	    List<Map<String, Object>> list;
+
+		    if (searchKeyword != null && !searchKeyword.isEmpty()) {
+		        list = testService.searchList2(searchKeyword);
+		    } else {
+		        // 검색어가 없으면 전체 리스트 가져오기
+		        list = testService.getList2();
+		    }
+	    // 페이징 처리를 위한 부분
+	    // 한 페이지에 표시할 데이터 수
+	    int pageSize = 10;
+	    // 전체 데이터의 크기
+	    int totalItems = list.size();
+	    // 전체 페이지 수
+	    int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+	    //보여줄 페이지 개수
+	    int pageNum = 10;
+	    //한 화면에 보여질 페이지 그룹
+	    int pageGroup = (int)Math.ceil(currentPage / pageNum) + 1;
+	    int lastpageGroup = (int)Math.ceil(totalPages / pageNum) + 1;
+	    System.out.println("currentPage : "+ currentPage);
+	    System.out.println("pageGroup : "+ pageGroup);
+	    //그룹 내 페이지의 시작번호
+	    int firstPageNum = ((pageGroup - 1) * pageNum);
+	    System.out.println("firstPageNum : "+ firstPageNum);
+	    //그룹 내 페이지의 마지막번호
+	    int lastPageNum = firstPageNum + 9;
+	    System.out.println("pageGroup : "+ pageGroup);
+	    System.out.println("lastPageNum : "+ lastPageNum);
+	    // 현재 페이지에 해당하는 일부 데이터만 선택
+	    //페이지에 해당하는 첫번째 데이터 값
+	    int startIdx = currentPage * pageSize;
+	    //페이지에 해당하는 마지막 데이터 값
+	    int endIdx = Math.min((currentPage + 1) * pageSize, totalItems);
+	    //10개의 데이터를 리스트에 저장
+	    List<Map<String, Object>> paginatedData = list.subList(startIdx, endIdx);
+	    //List<String> pagenumberGroup = list.subList(firstPageNum, lastPageNum); 
+
+	    // 현재 페이지 정보 및 데이터 전달
+	    mv.addObject("currentPage", currentPage);
+	    mv.addObject("totalPages", totalPages);
+	    mv.addObject("list", paginatedData);
+	    mv.addObject("searchKeyword", searchKeyword);
+	    mv.addObject("pageGroup", pageGroup);
+	    mv.addObject("lastpageGroup", lastpageGroup);
+	    mv.addObject("firstPageNum", firstPageNum);
+	    mv.addObject("lastPageNum", lastPageNum);
+
+	    return mv;
+	}
+	
 	@RequestMapping(value = "/writesave", method = RequestMethod.POST)
 	public String uploadFileAndWrite(@RequestParam("writing_id") int writing_id, @RequestParam String name, @RequestParam Object content, @RequestParam("file") MultipartFile[] files, Model model) throws Exception {
 	    
@@ -380,7 +440,8 @@ public class MainController {
 	        return "listread";
 	    }*/
 	 @RequestMapping(value = "/listread")
-	    public ModelAndView read(@RequestParam("writing_id") int writing_id) throws Exception {
+	    public ModelAndView read(@RequestParam("currentPage") int currentPage,
+@RequestParam("writing_id") int writing_id) throws Exception {
 	        // TestService를 통해 writingId에 해당하는 글의 세부 내용을 가져옵니다.
 		 	ModelAndView mv = new ModelAndView();
 		 	mv.setViewName("listread");
@@ -388,8 +449,48 @@ public class MainController {
 	        Map<String, Object> writingDetails = testService.readWrite(writing_id);
 	        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 	        list = testService.readFile(writing_id);
+	        list = testService.getList();
 	        System.out.println(list.size()); //파일의 사이즈를 찍어서 파일의 개수를 확인함
 	        
+	        // 페이징 처리를 위한 부분
+		    // 한 페이지에 표시할 데이터 수
+		    int pageSize = 10;
+		    // 전체 데이터의 크기
+		    int totalItems = list.size();
+		    // 전체 페이지 수
+		    int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+		    //보여줄 페이지 개수
+		    int pageNum = 10;
+		    //한 화면에 보여질 페이지 그룹
+		    int pageGroup = (int)Math.ceil(currentPage / pageNum) + 1;
+		    int lastpageGroup = (int)Math.ceil(totalPages / pageNum) + 1;
+		    System.out.println("currentPage : "+ currentPage);
+		    System.out.println("pageGroup : "+ pageGroup);
+		    //그룹 내 페이지의 시작번호
+		    int firstPageNum = ((pageGroup - 1) * pageNum);
+		    System.out.println("firstPageNum : "+ firstPageNum);
+		    //그룹 내 페이지의 마지막번호
+		    int lastPageNum = firstPageNum + 9;
+		    System.out.println("pageGroup : "+ pageGroup);
+		    System.out.println("lastPageNum : "+ lastPageNum);
+		    // 현재 페이지에 해당하는 일부 데이터만 선택
+		    //페이지에 해당하는 첫번째 데이터 값
+		    int startIdx = currentPage * pageSize;
+		    //페이지에 해당하는 마지막 데이터 값
+		    int endIdx = Math.min((currentPage + 1) * pageSize, totalItems);
+		    //10개의 데이터를 리스트에 저장
+		    List<Map<String, Object>> paginatedData = list.subList(startIdx, endIdx);
+		    //List<String> pagenumberGroup = list.subList(firstPageNum, lastPageNum); 
+
+		    // 현재 페이지 정보 및 데이터 전달
+		    mv.addObject("currentPage", currentPage);
+		    mv.addObject("totalPages", totalPages);
+		    mv.addObject("list", paginatedData);
+		    mv.addObject("pageGroup", pageGroup);
+		    mv.addObject("lastpageGroup", lastpageGroup);
+		    mv.addObject("firstPageNum", firstPageNum);
+		    mv.addObject("lastPageNum", lastPageNum);
+
 	        // 가져온 세부 내용을 모델에 추가합니다.
 	        mv.addObject("writing_id", writingDetails.get("writing_id"));
 	        mv.addObject("writing_name", writingDetails.get("writing_name"));
@@ -466,10 +567,6 @@ public class MainController {
 	    	return "membership";
 	    }
 	    
-	    @RequestMapping(value = "/datastructure")
-	    public String datastructure() {
-	    	return "datastructure";
-	    }
 	    
 	    @RequestMapping(value = "/c++")
 	    public String c() {

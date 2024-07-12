@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.eugeneprogram.testweb.service.TestService" %>
 <!DOCTYPE html>
-
 <html>
 	<head>
 	<meta charset="UTF-8">
@@ -50,38 +51,122 @@
 		    <div style="width:1000px; height:1000px; float:left; border-right:none; border-left:none; border-top:none;border-bottom:none;"> 
 		    <table>
 		    <div class="search_wrap" align="right">
-		        <div class="search_area">
-		            <input type="text" name="keyword" value="${keyword}">
-		            <button>Search</button>
-		        </div>
-		    </div>
-		        <colgroup>
-			        <col style="width:5%;"/>
-			        <col style="width:auto;"/>
-		        </colgroup>
-		        <thead>
-		            <tr>
-		                <th>번호</th>
-		                <th>제목</th>
-		            </tr>
-		        </thead>
-		        <tbody>
-		            <c:choose>
-		                <c:when test="${empty boardList}">
-		               		<tr><td colspan="5" align="center">데이터가 없습니다.</td></tr>
-		                </c:when>
-		                <c:when test="${!empty boardList}">
-		                    <c:forEach var="list" items="${boardList}">
-		                     <tr>
-		                         <td><c:out value="${list.bid}"/></td>
-		                         <td><c:out value="${list.title}"/></td>
-		                     </tr>
-		                 </c:forEach>
-		                 </c:when>
-		            </c:choose>
-		        </tbody>
-		    </table>
-		    <input type="button" value="글 작성" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"/>&nbsp;&nbsp;
-		    </div>
-		</body>
+              
+            <%-- 검색어 입력하는 폼 --%>
+			<form action="/datastructure" method="GET">
+			  <input type="text" name="searchKeyword" value="${searchKeyword}"/>
+			  <button type="submit">검색</button>
+			</form>
+			    
+			<table>
+				<colgroup>
+			    	<col style="width:5%;" />
+			        <col style="width:auto;" />
+			    </colgroup>
+			    <thead>
+			    	<tr>
+			         <td>
+			          <input type="checkbox" id="all" name="all" class="btn-outlin-info" onclick="selectAll()"/>
+			         </td>
+			         <td style="font-weight: 900;">
+			           번호
+			         </td>
+			         <td style="font-weight: 900;">
+			           제목
+			         </td>
+			        </tr>
+			    </thead>
+			    <tbody>
+			    	<form action = "selectDelete">
+			        	<c:forEach var="item" items="${list}">
+			                <tr>
+			                    <c:if test="${item.writing2_delete == 'N'}">
+			                     <td>
+			                   	  <input type="checkbox" name="checked" class="btn-outlin-info" value="${item.writing2_id}"/>
+			                     </td>
+			                     <td>
+			                      ${item.writing2_id}
+			                     </td>
+			                     <td>
+			                     <a href="listread?writing2_id=${item.writing2_id}&currentPage=${currentPage}">
+			                       ${item.writing2_name}
+			                      </a>
+			                     </td>
+			                    </c:if>
+			                    <c:if test="${item.writing2_delete == 'Y'}">
+			                     <td>
+			                      ${item.writing2_id}
+			                     </td>
+			                     <td> 
+			                      삭제된 글입니다.
+			                     </td>
+			                    </c:if>
+			                </tr>
+			            </c:forEach>
+			        
+			    </tbody>
+			    </table>
+			    <%-- 페이징 처리 부분  --%>
+			    <c:if test="${totalPages > 1}">
+			    	<div>
+			            <span>현재 페이지: ${currentPage + 1} / 총 페이지: ${totalPages}</span>
+						<span>
+						     <input type="button" value="<<" onClick="subAllClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding: 5px;" <c:if test="${pageGroup == 1}">disabled</c:if> />
+						</span>
+						<span>
+						    <input type="button" value="<" onClick="subClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding: 5px;" <c:if test="${currentPage == 0}">disabled</c:if> />
+						</span>			            
+			            <c:forEach var="i" begin="${firstPageNum}" end="${lastPageNum}">
+			            	<c:if test = "${i < totalPages}">
+			                	<a href="/java?currentPage=${i}&searchKeyword=${searchKeyword}">${i + 1}</a>
+			                </c:if>
+			            </c:forEach>
+			           <span><input type="button" value=">" onClick="addClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px;"<c:if test="${currentPage == totalPages - 1}">disabled</c:if> />
+			           </span>
+			           <span><input type="button" value=">>" onClick="addAllClickEvent('${pageGroup}','${searchKeyword}')" style="font-size:10px; padding : 5px;"
+			           <c:if test="${pageGroup == lastpageGroup}">disabled</c:if> 
+			           <c:if test="${currentPage + 11 > totalPages}">disabled</c:if>/>
+			           </span>
+			        </div>
+			    </c:if>
+		
+		
+			            
+			            <span><input type="button" value="글 작성" onClick="location.href='write'" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+			            <span><input type="submit" value="선택 삭제" style="font-size:10px; padding : 5px 5px 5px 5px;float:right;"></span>&nbsp;&nbsp;
+			         </form>
+			</body>
+			
+			<script>
+			 	function subClickEvent(currentPage, searchKeyword) {
+			 		location.href = "/java?currentPage=${currentPage-1}&searchKeyword=${searchKeyword}";	
+			 	}
+			</script> 
+			<script>
+			 	function subAllClickEvent(currentPage, searchKeyword) {
+			 		location.href = "/java?currentPage=${currentPage-10}&searchKeyword=${searchKeyword}";	
+			 	}
+			</script> 
+			<script>
+			 	function addClickEvent(currentPage, searchKeyword) {
+			 		location.href = "/java?currentPage=${currentPage+1}&searchKeyword=${searchKeyword}";
+			 	}
+			</script> 
+			<script>
+			 	function addAllClickEvent(currentPage, searchKeyword) {
+			 		location.href = "/java?currentPage=${currentPage+10}&searchKeyword=${searchKeyword}";
+			 	}
+			</script> 
+			<script>
+				function selectAll() {
+					if(document.getElementById("all").checked==true){
+						for(var i=0;i<100;i++)
+							document.getElementsByName("checked")[i].checked=true;
+					}
+					if(document.getElementById("all").checked==false){
+						for(var i=0;i<100;i++)
+							document.getElementsByName("checked")[i].checked=false;
+					}
+				};
+		    </script>
 </html>
